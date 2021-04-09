@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginVertical="@dimen/_8sdp"
+    android:layout_height="@dimen/_120sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_toLeftOf="@+id/imageCard">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvSource"
+                android:text="Unknown Source"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDescription"
+                android:text="@string/dummy_text"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:maxLines="3"
+                android:minLines="3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvPublishDate"
+                android:text="9 days Ago"
+                android:layout_marginTop="@dimen/_8sdp"/>
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/imageCard"
+            app:cardCornerRadius="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_8sdp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ivNews"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bn"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

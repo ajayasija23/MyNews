@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MyNews</string>
+    <string name="location">Location</string>
+    <string name="dummy_text">been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</string>
+
+    <string-array name="sort_options">
+        <item>Popular</item>
+        <item>Newest</item>
+        <item>Oldest</item>
+    </string-array>
+</resources>

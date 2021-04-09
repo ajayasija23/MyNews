@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/secondary"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/topBar"
+        android:background="@color/primary">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="@string/app_name"
+           android:textAppearance="@style/TextAppearance.AppCompat.Large"
+           android:textColor="@color/white"
+           android:textStyle="bold"
+           android:fontFamily="@font/source_sans_pro"
+           android:layout_alignParentBottom="true"
+           android:layout_marginLeft="@dimen/_8sdp"
+           android:layout_marginBottom="@dimen/_5sdp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:fontFamily="@font/source_sans_pro"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_5sdp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:drawableLeft="@drawable/ic_baseline_location_on_24"
+                android:fontFamily="@font/source_sans_pro"
+                android:text="India"
+                android:id="@+id/tvLocation"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:padding="@dimen/_2sdp"
+        android:id="@+id/searchBar"
+        android:layout_below="@+id/topBar"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:background="@drawable/search_bg"
+        android:layout_marginTop="@dimen/_8sdp">
+
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:iconifiedByDefault="false"
+            android:id="@+id/searchView"
+            android:layout_weight="0.8"
+            android:gravity="center_vertical"
+            app:queryBackground="@null"
+            app:searchIcon="@null"
+            app:queryHint="Search for news,topics ....." />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_4sdp"
+            android:layout_weight=".1"
+            android:src="@drawable/ic_baseline_search_24"/>
+
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchBar"
+        android:id="@+id/rlSort"
+        android:layout_marginTop="@dimen/_16sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:fontFamily="@font/source_sans_pro_bold"
+            android:text="Top Highlights"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_4sdp"
+            android:gravity="center"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sort:"/>
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/sort_options"
+                android:id="@+id/spinnerSort"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlSort"
+        android:id="@+id/rvNews"
+        android:layout_marginHorizontal="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/primary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_outline_filter_alt_24"
+        app:tint="@color/white"
+        android:id="@+id/btnFilter"
+        app:maxImageSize="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"/>
+
+
+</RelativeLayout>
