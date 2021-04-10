@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/topBar"
+        android:background="@color/primary">
+
+        <ImageView
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            android:layout_centerVertical="true"
+            app:tint="@color/white"
+            android:id="@+id/ivBack"
+            android:layout_marginLeft="@dimen/_16sdp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBar">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rlImage"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_140sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_140sdp"
+                    android:src="@drawable/bn"
+                    android:id="@+id/ivNews"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTitle"
+                    android:text="@string/dummy_text"
+                    android:textColor="@color/white"
+                    android:layout_alignParentBottom="true"
+                    android:textStyle="bold"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvSource"
+                android:layout_below="@+id/rlImage"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:fontFamily="@font/source_sans_pro"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:text="Unknown Source"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvPublishDate"
+                android:layout_below="@+id/tvSource"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:text="9 days Ago"
+                android:layout_marginTop="@dimen/_5sdp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:justificationMode="inter_word"
+                android:layout_below="@+id/tvPublishDate"
+                android:text="@string/dummy_text"
+                android:textColor="@color/black"
+                android:id="@+id/tvDescription"
+                android:maxLines="8"
+                android:layout_marginTop="@dimen/_16sdp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDescription"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:id="@+id/tvFullStory"
+                android:gravity="center_vertical"
+                android:text="Read Full Story"
+                android:fontFamily="@font/source_sans_pro"
+                android:textColor="@color/primary"
+                android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right_24"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+</RelativeLayout>
+

@@ -35,20 +35,20 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showProgress(){
-        mDialog=new Dialog(this);
-        binding= LayoutProgressDialogBinding.inflate(getLayoutInflater());
-        View view=binding.getRoot();
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        mDialog.setContentView(view);
-        mDialog.setCancelable(false);
+        if (mDialog==null){
+            mDialog=new Dialog(this);
+            binding= LayoutProgressDialogBinding.inflate(getLayoutInflater());
+            View view=binding.getRoot();
+            mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            mDialog.setContentView(view);
+            mDialog.setCancelable(false);
+        }
         mDialog.show();
     }
     public void hideProgress(){
-        try {
+        if (mDialog.isShowing()){
             mDialog.dismiss();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
