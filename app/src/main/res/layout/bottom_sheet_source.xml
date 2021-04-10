@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rvSources"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginHorizontal="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_16sdp"/>
 
@@ -42,6 +43,7 @@
         android:backgroundTint="@color/primary"
         android:textAllCaps="false"
         app:cornerRadius="@dimen/_4sdp"
+        android:id="@+id/btnApply"
         android:fontFamily="@font/source_sans_pro_bold"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_16sdp"/>

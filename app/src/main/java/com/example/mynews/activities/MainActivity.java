@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -15,16 +16,19 @@ import com.example.mynews.fragment.SourceBottomSheetFragment;
 import com.example.mynews.listener.BottomSheetListener;
 import com.example.mynews.model.NewsModel;
 import com.example.mynews.util.Constants;
+import com.example.mynews.util.FrequentFuctions;
 import com.example.mynews.viewmodel.NewsViewModel;
 
 import java.util.LinkedHashMap;
 
-public class MainActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, BottomSheetListener {
+public class MainActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener, BottomSheetListener, SearchView.OnQueryTextListener {
 
     private ActivityMainBinding binding;
     private NewsViewModel viewModel;
     private LinkedHashMap map;
     private BottomSheetListener listener;
+    private CountryBottomSheetFragment countryBottomSheetFragment;
+    private SourceBottomSheetFragment bottomsheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,9 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     private void setListener() {
         binding.spinnerSort.setOnItemSelectedListener(this);
         binding.btnFilter.setOnClickListener(this);
-        binding.tvLocation.setOnClickListener(this);
+        binding.llCountry.setOnClickListener(this);
+        binding.searchView.setOnQueryTextListener(this);
+        binding.ivSearch.setOnClickListener(this);
     }
 
     private void fetchNews() {
@@ -53,12 +59,23 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
         viewModel.getNews().observe(this, new Observer<NewsModel>() {
             @Override
             public void onChanged(NewsModel newsModel) {
+                hideProgress();
+                binding.searchView.clearFocus();
                 if (newsModel!=null){
-                    hideProgress();
-                    binding.rvNews
-                        .setAdapter(
-                            new NewsAdapter(newsModel.getArticles(),MainActivity.this)
-                        );
+                    if (newsModel.getTotalResults()!=0){
+                        binding.rlSort.setVisibility(View.VISIBLE);
+                        binding.rvNews.setVisibility(View.VISIBLE);
+                        binding.llNoresult.setVisibility(View.GONE);
+                        binding.rvNews
+                                .setAdapter(
+                                        new NewsAdapter(newsModel.getArticles(),MainActivity.this)
+                                );
+                    }
+                    else {
+                        binding.rlSort.setVisibility(View.GONE);
+                        binding.rvNews.setVisibility(View.GONE);
+                        binding.llNoresult.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -82,34 +99,73 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
             case R.id.btnFilter:
                 showSourceBottomSheet();
                 break;
-            case R.id.tvLocation:
+            case R.id.llCountry:
                 showCountryDialog();
+                break;
+            case R.id.ivSearch:
+                onQueryTextSubmit(binding.searchView.getQuery().toString());
                 break;
         }
     }
 
     private void showCountryDialog() {
-        CountryBottomSheetFragment countryBottomSheetFragment=
+         countryBottomSheetFragment=
                 new CountryBottomSheetFragment();
         countryBottomSheetFragment.show(getSupportFragmentManager(),"Country");
     }
 
     private void showSourceBottomSheet() {
-        SourceBottomSheetFragment bottomsheet=new SourceBottomSheetFragment();
+        bottomsheet=new SourceBottomSheetFragment();
         bottomsheet.show(getSupportFragmentManager(),"Source");
     }
 
     @Override
     public void onSelectSources(String sources) {
         //apply source filter
+        bottomsheet.dismiss();
+        if (map.containsKey("country"))
+            map.remove("country");
+        map.put("sources",sources);
+        showProgress();
+        viewModel.fetchNews(map);
     }
 
     @Override
-    public void onSelectCountry(String county) {
+    public void onSelectCountry(String country) {
         //apply country filter
+        countryBottomSheetFragment.dismiss();
+        binding.tvLocation.setText(country);
+        map.put("country", FrequentFuctions.getCountryCodes(country));
+        showProgress();
+        viewModel.fetchNews(map);
     }
 
     public BottomSheetListener getListener() {
         return listener;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        map.put("q",query);
+        if (map.containsKey("country"))
+            map.remove("country");
+        showProgress();
+        viewModel.fetchNews(map);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.isEmpty()){
+            map.put(
+                    "country",
+                    FrequentFuctions.getCountryCodes(binding.tvLocation.getText().toString())
+            );
+            if (map.containsKey("q"))
+                map.remove("q");
+            showProgress();
+            viewModel.fetchNews(map);
+        }
+        return false;
     }
 }
