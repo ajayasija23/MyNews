@@ -23,7 +23,7 @@ public class Repository {
     }
 
     public void fetchNews(LinkedHashMap<String, String> map){
-        Call <NewsModel> call=apiService.getNews(map);
+        Call <NewsModel> call=apiService.getNews(map,1);
         call.enqueue(new Callback<NewsModel>() {
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {

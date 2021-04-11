@@ -1,5 +1,7 @@
 package com.example.mynews.activities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +20,7 @@ import com.example.mynews.model.NewsModel;
 import com.example.mynews.util.Constants;
 import com.example.mynews.util.FrequentFuctions;
 import com.example.mynews.viewmodel.NewsViewModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.LinkedHashMap;
 
@@ -29,16 +32,30 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     private BottomSheetListener listener;
     private CountryBottomSheetFragment countryBottomSheetFragment;
     private SourceBottomSheetFragment bottomsheet;
+    private MaterialButton button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= ActivityMainBinding.inflate(getLayoutInflater());
-        View view=binding.getRoot();
-        setContentView(view);
-        listener=this;
-        fetchNews();
-        setListener();
+        setView();
+    }
+
+    private void setView() {
+        if (isNetworkConnected()){
+            //device is connected to the internet inflate activity main
+            binding= ActivityMainBinding.inflate(getLayoutInflater());
+            View view=binding.getRoot();
+            setContentView(view);
+            listener=this;
+            fetchNews();
+            setListener();
+        }
+        else {
+            //device is not connected to the internet inflate activity activity_no_internet.xml
+            setContentView(R.layout.activity_no_internet);
+            button=findViewById(R.id.btnTryAgain);
+            button.setOnClickListener(this);
+        }
     }
 
     private void setListener() {
@@ -105,11 +122,14 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
             case R.id.ivSearch:
                 onQueryTextSubmit(binding.searchView.getQuery().toString());
                 break;
+            case R.id.btnTryAgain:
+                setView();
+                break;
         }
     }
 
     private void showCountryDialog() {
-         countryBottomSheetFragment=
+        countryBottomSheetFragment=
                 new CountryBottomSheetFragment();
         countryBottomSheetFragment.show(getSupportFragmentManager(),"Country");
     }
@@ -167,5 +187,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
             viewModel.fetchNews(map);
         }
         return false;
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 }
