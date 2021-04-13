@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.mynews.R;
+import com.example.mynews.activities.MainActivity;
 import com.example.mynews.activities.NewsDetailsActivity;
+import com.example.mynews.listener.NoDataListener;
 import com.example.mynews.model.NewsModel;
 import com.example.mynews.util.Constants;
 

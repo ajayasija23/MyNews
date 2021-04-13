@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
 
+import com.example.mynews.listener.NoDataListener;
 import com.example.mynews.model.NewsModel;
 import com.example.mynews.util.Constants;
 import com.example.mynews.web.ApiService;
@@ -21,10 +22,12 @@ public class NewsItemDataSource extends PageKeyedDataSource<Integer, NewsModel.A
     private static final int fistPage=1;
     private final ApiService apiService;
     private final LinkedHashMap<String, String> map;
+    private NoDataListener listener;
 
-    public NewsItemDataSource(LinkedHashMap<String, String> map){
+    public NewsItemDataSource(LinkedHashMap<String, String> map, NoDataListener listener){
         apiService= Webservices.getApiService();
         this.map=map;
+        this.listener=listener;
     }
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, NewsModel.ArticlesBean> callback) {
@@ -32,8 +35,14 @@ public class NewsItemDataSource extends PageKeyedDataSource<Integer, NewsModel.A
         call.enqueue(new Callback<NewsModel>() {
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
+                listener.hideProgress();
                 if (response.body()!=null){
-                    callback.onResult(response.body().getArticles(),null,fistPage+1);
+                    if (response.body().getArticles().size()==0){
+                        listener.noData();
+                    }
+                    else {
+                        callback.onResult(response.body().getArticles(),null,fistPage+1);
+                    }
                 }
             }
 
@@ -50,6 +59,7 @@ public class NewsItemDataSource extends PageKeyedDataSource<Integer, NewsModel.A
         call.enqueue(new Callback<NewsModel>() {
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
+                listener.hideProgress();
                 if (response.body()!=null){
                     Integer key = (params.key > 1) ? params.key - 1 : null;
                     callback.onResult(response.body().getArticles(),key);
@@ -69,6 +79,7 @@ public class NewsItemDataSource extends PageKeyedDataSource<Integer, NewsModel.A
         call.enqueue(new Callback<NewsModel>() {
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
+                listener.hideProgress();
                 if (response.body()!=null){
                     Integer key = (response.body().getArticles().size()==20) ? params.key + 1 : null;
                     callback.onResult(response.body().getArticles(),key);

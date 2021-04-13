@@ -6,6 +6,7 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
 
+import com.example.mynews.listener.NoDataListener;
 import com.example.mynews.model.NewsModel;
 import com.example.mynews.repository.NewsItemDataSourceFactory;
 import com.example.mynews.util.Constants;
@@ -18,11 +19,11 @@ public class NewsFeedViewModel extends ViewModel {
     private LiveData<PagedList<NewsModel.ArticlesBean>> articlesPagedList;
     private LiveData<PageKeyedDataSource<Integer, NewsModel.ArticlesBean>> liveArticles;
 
-    public NewsFeedViewModel(){
+    public void init(NoDataListener listener){
         initialMap=new LinkedHashMap<>();
         initialMap.put("apiKey", Constants.API_KEY);
         initialMap.put("country", "in");
-        factory =new NewsItemDataSourceFactory(initialMap);
+        factory =new NewsItemDataSourceFactory(initialMap,listener);
         liveArticles=factory.getItemLiveDataSource();
         PagedList.Config config =
                 (new PagedList.Config.Builder())
@@ -31,8 +32,8 @@ public class NewsFeedViewModel extends ViewModel {
                         .build();
         articlesPagedList=(new LivePagedListBuilder(factory,config)).build();
     }
-    public void changeMap(LinkedHashMap<String,String> map){
-        factory =new NewsItemDataSourceFactory(map);
+    public void changeMap(LinkedHashMap<String,String> map,NoDataListener listener){
+        factory =new NewsItemDataSourceFactory(map, listener);
         liveArticles=factory.getItemLiveDataSource();
         PagedList.Config config =
                 (new PagedList.Config.Builder())
